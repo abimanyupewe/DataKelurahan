@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Warga Detail</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Data {{warga.nama_lengkap}}</h1>
     <p>{{warga.nik}}</p>
-</body>
+
+    <h2>Daftar Pengaduan oleh {{ object.nama_lengkap }}</h2>
+    <ul>
+      {% for pengaduan in object.pengaduan.all %}
+      <li><strong>{{ pengaduan.judul }}</strong> - {{ pengaduan.isi }}</li>
+      <p>(Status: {{ pengaduan.get_status_display }})</p>
+      {% empty %}
+      <li>Belum ada pengaduan.</li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>

@@ -29,3 +29,31 @@ class Warga(models.Model):
 
     def __str__(self):
         return self.nama_lengkap
+
+class Pengaduan(models.Model):
+    STATUS_CHOICES = [
+        ('BARU', 'Baru'),
+        ('DIPROSES', 'Diproses'),
+        ('SELESAI', 'Selesai'),
+    ]
+
+    # ForeignKey ke model Warga (paling penting)
+    pelapor = models.ForeignKey(Warga, on_delete=models.CASCADE, related_name='pengaduan')
+    
+    judul = models.CharField(
+        max_length=200, 
+        verbose_name="Judul Pengaduan"
+    )
+    
+    isi = models.TextField(
+        verbose_name="Isi Pengaduan"
+    )
+
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='BARU')
+    
+    tanggal_pengaduan = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+        return self.judul
