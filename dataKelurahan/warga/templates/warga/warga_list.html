@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Warga</title>
+</head>
+
+<body>
+    <h1>Daftar Warga</h1>
+
+    <ul>
+        {% for warga in object_list %}
+
+        <li>
+            <a href="{% url 'warga_detail' warga.pk %}">{{ warga.nama_lengkap }} - NIK: {{ warga.nik }}</a>
+        </li>
+
+        {% empty %}
+
+        <li>Belum ada data warga yang terdaftar.</li>
+
+        {% endfor %}
+    </ul>
+</body>
+
+</html>
