@@ -36,9 +36,6 @@ class Pengaduan(models.Model):
         ('DIPROSES', 'Diproses'),
         ('SELESAI', 'Selesai'),
     ]
-
-    # ForeignKey ke model Warga (paling penting)
-    pelapor = models.ForeignKey(Warga, on_delete=models.CASCADE, related_name='pengaduan')
     
     judul = models.CharField(
         max_length=200, 
@@ -54,6 +51,9 @@ class Pengaduan(models.Model):
     tanggal_pengaduan = models.DateTimeField(
         auto_now_add=True
     )
+
+    # ForeignKey ke model Warga (paling penting)
+    pelapor = models.ForeignKey(Warga, on_delete=models.CASCADE, related_name='pengaduan')
 
     def __str__(self):
         return self.judul
