@@ -1,0 +1,63 @@
+{% extends 'warga/index.html' %} {% block content %}
+<div class="flex-1 py-10">
+  <div class="max-w-2xl mx-auto px-4">
+    <div class="bg-white rounded-lg shadow-lg border border-gray-100 p-8">
+      <h1 class="text-2xl font-bold text-gray-900 mb-4">Detail Pengaduan</h1>
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800">
+          {{ pengaduan.judul }}
+        </h2>
+        <p class="mt-2 text-gray-700">{{ pengaduan.isi }}</p>
+      </div>
+      <div class="mb-4 text-sm text-gray-600">
+        <span class="font-medium">Pelapor:</span>
+        {% if pengaduan.pelapor %} {{ pengaduan.pelapor.nama_lengkap }} {% else
+        %} (tidak ada pelapor) {% endif %}
+      </div>
+      <div class="mb-4 text-sm text-gray-500">
+        <span class="font-medium">Tanggal Pengaduan:</span>
+        {{ pengaduan.tanggal_pengaduan|date:"d M Y H:i" }}
+      </div>
+      <div class="mb-4">
+        <span class="font-medium">Status:</span>
+        {% if pengaduan.status == 'BARU' %}
+        <span
+          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+          style="background-color: #fffbeb; color: #92400e"
+          >{{ pengaduan.get_status_display }}</span
+        >
+        {% elif pengaduan.status == 'DIPROSES' %}
+        <span
+          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+          style="background-color: #eff6ff; color: #1e3a8a"
+          >{{ pengaduan.get_status_display }}</span
+        >
+        {% else %}
+        <span
+          class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+          style="background-color: #ecfdf5; color: #065f46"
+          >{{ pengaduan.get_status_display }}</span
+        >
+        {% endif %}
+      </div>
+      <div class="flex gap-3 mt-6">
+        <a
+          href="{% url 'pengaduan_edit' pengaduan.pk %}"
+          class="inline-flex items-center px-4 py-2 border border-yellow-200 rounded-md text-sm text-yellow-700 bg-yellow-50 hover:bg-yellow-100"
+          >Edit</a
+        >
+        <a
+          href="{% url 'pengaduan_hapus' pengaduan.pk %}"
+          class="inline-flex items-center px-4 py-2 border border-red-200 rounded-md text-sm text-red-700 bg-red-50 hover:bg-red-100"
+          >Hapus</a
+        >
+        <a
+          href="{% url 'pengaduan_list' %}"
+          class="inline-flex items-center px-4 py-2 border border-gray-200 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50"
+          >Kembali ke Daftar</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

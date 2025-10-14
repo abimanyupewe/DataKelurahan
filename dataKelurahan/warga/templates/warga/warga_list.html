@@ -1,72 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daftar Warga</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      /* small visual tweak for list */
-      .card-hover:hover {
-        transform: translateY(-4px);
-      }
-    </style>
-  </head>
-
-  <body class="min-h-screen flex flex-col bg-gray-50">
-    {% include 'warga/navbar.html' %}
-    <main class="flex-1">
-      <div class="max-w-4xl mx-auto px-4 pt-10">
-        <header class="mb-8">
-          <h1 class="text-3xl font-semibold text-gray-900">Daftar Warga</h1>
-          <p class="text-sm text-gray-600 mt-2">
-            Kelola dan lihat data warga. Klik nama untuk melihat detail dan
-            pengaduan.
-          </p>
-        </header>
-
-        <div class="grid gap-4">
-          {% for warga in object_list %}
-          <article
-            class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm flex items-center justify-between card-hover transition-transform duration-150"
-          >
-            <div>
-              <a
-                href="{% url 'warga_detail' warga.pk %}"
-                class="text-lg font-medium text-gray-900 hover:underline"
-                >{{ warga.nama_lengkap }}</a
-              >
-              <div class="text-sm text-gray-500 mt-1">NIK: {{ warga.nik }}</div>
-              <div class="text-sm text-gray-500">
-                Terdaftar: {{ warga.tanggal_registrasi|date:"d M Y" }}
-              </div>
-            </div>
-            <div class="flex items-center gap-3">
-              <a
-                href="{% url 'warga_detail' warga.pk %}"
-                class="inline-flex items-center px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50"
-                >Detail</a
-              >
-            </div>
-          </article>
-          {% empty %}
-          <div
-            class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm text-center text-gray-600"
-          >
-            <h3 class="text-lg font-medium text-gray-900">
-              Belum ada data warga
-            </h3>
-            <p class="text-sm mt-2">
-              Tambahkan warga melalui
-              <a href="/admin/" class="text-blue-600">Admin</a> atau gunakan
-              tombol "Tambah Warga".
-            </p>
-          </div>
-          {% endfor %}
-        </div>
+{% extends 'warga/index.html' %} {% block content %}
+<div class="flex-1">
+  <div class="max-w-4xl mx-auto px-4 pt-10">
+    <header
+      class="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
+    >
+      <div>
+        <h1 class="text-3xl font-semibold text-gray-900 mb-2">Daftar Warga</h1>
+        <p class="text-sm text-gray-600">
+          Kelola dan lihat data warga. Klik nama untuk melihat detail dan
+          pengaduan.
+        </p>
       </div>
-    </main>
+      <div>
+        <a
+          href="{% url 'tambah_warga' %}"
+          class="inline-flex items-center px-4 py-2 bg-slate-600 text-white text-sm font-medium rounded-md shadow-sm hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        >
+          + Tambah Warga
+        </a>
+      </div>
+      <hr />
+    </header>
 
-    {% include 'warga/footer.html' %}
-  </body>
-</html>
+    <div class="grid gap-4">
+      {% for warga in object_list %}
+      <article
+        class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm flex items-center justify-between card-hover transition-transform duration-150"
+      >
+        <div>
+          <a
+            href="{% url 'warga_detail' warga.pk %}"
+            class="text-lg font-medium text-gray-900 hover:underline"
+            >{{ warga.nama_lengkap }}</a
+          >
+          <div class="text-sm text-gray-500 mt-1">NIK: {{ warga.nik }}</div>
+          <div class="text-sm text-gray-500">
+            Terdaftar: {{ warga.tanggal_registrasi|date:"d M Y" }}
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <a
+            href="{% url 'warga_detail' warga.pk %}"
+            class="inline-flex items-center px-3 py-2 border border-gray-200 rounded-md text-sm text-gray-700 bg-white hover:bg-gray-50"
+            >Detail</a
+          >
+        </div>
+      </article>
+      {% empty %}
+      <div
+        class="bg-white p-8 rounded-lg border border-gray-100 shadow-sm text-center text-gray-600"
+      >
+        <h3 class="text-lg font-medium text-gray-900">Belum ada data warga</h3>
+        <p class="text-sm mt-2">
+          Tambahkan warga melalui
+          <a href="/admin/" class="text-blue-600">Admin</a> atau gunakan tombol
+          "Tambah Warga".
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
