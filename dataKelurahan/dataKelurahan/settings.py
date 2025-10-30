@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'warga'
+    'warga',
+    # restApi
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
