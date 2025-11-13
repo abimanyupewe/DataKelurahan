@@ -1,4 +1,4 @@
-from django.shortcuts import render
+# from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Warga, Pengaduan
 from django.urls import reverse_lazy
@@ -6,27 +6,29 @@ from .forms import WargaForm, PengaduanForm
 # rest API
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from .serializers import WargaSerializer, PengaduanSerializer
+# all in one CRUD
+from rest_framework import viewsets
 
 class WargaListView(ListView):
     model = Warga
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = 'Daftar Warga'
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['name'] = 'Daftar Warga'
+    #     return context
 
 class WargaDetailView(DetailView):
     model = Warga
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = 'Detail Warga'
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['name'] = 'Detail Warga'
+    #     return context
 
 class PengaduanListView(ListView):
     model = Pengaduan
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['name'] = 'Daftar Pengaduan'
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['name'] = 'Daftar Pengaduan'
+    #     return context
 
 class WargaCreateView(CreateView):
     model = Warga
@@ -108,4 +110,12 @@ class PengaduanListAPIView(ListAPIView):
 
 class PengaduanDetailAPIView(RetrieveAPIView):
     queryset = Pengaduan.objects.all()
+    serializer_class = PengaduanSerializer
+
+class WargaViewSet(viewsets.ModelViewSet):
+    queryset = Warga.objects.all().order_by('-tanggal_registrasi')
+    serializer_class = WargaSerializer
+
+class PengaduanViewSet(viewsets.ModelViewSet):
+    queryset = Pengaduan.objects.all().order_by('-tanggal_pengaduan')
     serializer_class = PengaduanSerializer
