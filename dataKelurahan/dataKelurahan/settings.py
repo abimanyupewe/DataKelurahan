@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # style
+    'unfold',
+    # 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +43,11 @@ INSTALLED_APPS = [
     'warga',
     # restApi
     'rest_framework',
+    'rest_framework.authtoken',
+    'django_filters',
+    # corsheaders
+    'corsheaders',
+    'drf_spectacular', 
     # styling
     "crispy_forms",
     "crispy_tailwind",
@@ -52,8 +60,50 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 # CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 # CRISPY_TEMPLATE_PACK = "bootstrap5"
 
+# rest framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    # prak10
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+    # schema
+     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+# corsheaders
+CORS_ALLOW_ALL_ORIGINS = True
+
+# schema
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'API Aplikasi Warga Kelurahan',
+    'DESCRIPTION': 'Dokumentasi API untuk mengelola data warga dan pengaduan.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+
+UNFOLD = {
+    "SITE_TITLE": "Admin Desa",
+    "SITE_HEADER": "Admin Desa",
+    "SITE_URL": "/admin/",
+    "LOGIN": {
+        "SHOW_FORGOT_PASSWORD": False,
+        "username_placeholder": "Username",
+        "password_placeholder": "Password",
+    },
+    "THEME": "auto",  # "dark" / "light" / "auto"
+}
+
 
 MIDDLEWARE = [
+    # corsheaders
+    'corsheaders.middleware.CorsMiddleware',
+    # 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
