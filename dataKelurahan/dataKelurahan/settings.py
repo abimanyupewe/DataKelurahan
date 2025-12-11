@@ -64,6 +64,7 @@ CRISPY_TEMPLATE_PACK = "tailwind"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -86,19 +87,17 @@ SPECTACULAR_SETTINGS = {
     'SERVE_INCLUDE_SCHEMA': False,
 }
 
-
 UNFOLD = {
     "SITE_TITLE": "Admin Desa",
     "SITE_HEADER": "Admin Desa",
     "SITE_URL": "/admin/",
     "LOGIN": {
-        "SHOW_FORGOT_PASSWORD": False,
+        "SHOW_FORGOT_PASSWORD": True,
         "username_placeholder": "Username",
         "password_placeholder": "Password",
     },
     "THEME": "auto",  # "dark" / "light" / "auto"
 }
-
 
 MIDDLEWARE = [
     # corsheaders

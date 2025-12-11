@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import toast from "react-hot-toast";
+import { AppContext } from "./context/AppContext";
 
 interface Warga {
+  pk: number;
   id: number;
+  nik: number;
   nama_lengkap: string;
-  nik: string;
   alamat: string;
   no_telepon: string;
+  tanggal_registrasi: string;
 }
 
 function App() {
-  const [warga, setWarga] = useState<Warga[]>([]);
+  const content = useContext(AppContext);
+  if (!content) {
+    return <div>Loading...</div>;
+  }
+  const { wargas, setWargas } = content;
+
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     nama_lengkap: "",
@@ -22,26 +30,15 @@ function App() {
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL || "http://127.0.0.1:8000/api/";
 
-  const fetchData = async () => {
-    try {
-      const response = await fetch(`${backendUrl}warga/`);
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
-      setWarga(Array.isArray(data) ? data : data.results || []);
-      toast.success("Data warga berhasil dimuat");
-    } catch (error) {
-      setError("Gagal mengambil data warga");
-      console.error("Error fetching data:", error);
-    }
-  };
-
-  const addWarga = async (newWarga: Omit<Warga, "id">) => {
+  const addWarga = async (
+    newWarga: Omit<Warga, "id" | "pk" | "tanggal_registrasi">
+  ) => {
     try {
       const response = await fetch(`${backendUrl}warga/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": "Token 243d0864b90414d2fadbf79cd8eb220c59ee9d8a"
+          Authorization: "Token 243d0864b90414d2fadbf79cd8eb220c59ee9d8a",
         },
         body: JSON.stringify(newWarga),
       });
@@ -51,7 +48,7 @@ function App() {
       const created = await response.json();
 
       // TAMBAHKAN DATA BARU KE STATE
-      setWarga((prev) => [...prev, created]);
+      setWargas((prev) => [...prev, created]);
       toast.success("Warga berhasil ditambahkan");
     } catch (error) {
       setError("Gagal menambah warga");
@@ -76,21 +73,17 @@ function App() {
     });
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Data Warga</h1>
 
       {error && <p className="text-red-600">{error}</p>}
 
-      {warga.length === 0 ? (
+      {wargas.length === 0 ? (
         <p>Loading data...</p>
       ) : (
         <div className="space-y-4">
-          {warga.map((item) => (
+          {wargas.map((item) => (
             <div
               key={item.id}
               className="p-4 border rounded-lg shadow-sm bg-gray-100"
